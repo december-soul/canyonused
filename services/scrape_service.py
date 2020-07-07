@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 def scrapeContent(url):
-    print(url)
     page = requests.get(url)
 
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -11,9 +10,7 @@ def scrapeContent(url):
     
     filteredContent = []
     for bike in bikes:
-        #print(bike)
         name = bike.find('div', class_='productTile__productName').text.strip()
-        #print(name)
         regularPrice = bike.find('div', class_='productTile__priceOriginal').text.strip()[4:-5]
         salePrice = bike.find('div', class_='productTile__priceSale').text.strip()[:-5]
         url = "https://www.canyon.com" + bike.find("meta", itemprop="url").get("content")
@@ -22,5 +19,4 @@ def scrapeContent(url):
             continue
         
         filteredContent.append([name, regularPrice, salePrice, url])
-    # print(filteredContent)
     return filteredContent
